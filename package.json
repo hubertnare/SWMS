@@ -1,0 +1,25 @@
+{
+  "name": "swms",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.16.4",
+    "hbs": "~4.0.4",
+    "html-renderer": "0.0.6",
+    "http-errors": "~1.6.3",
+    "iniparser": "^1.0.5",
+    "morgan": "~1.9.1",
+    "nodemon": "^1.19.1",
+    "parse-ini": "^1.0.6",
+    "path": "^0.12.7",
+    "pg-promise": "^8.7.4",
+    "read-ini-file": "^2.0.0"
+  }
+}

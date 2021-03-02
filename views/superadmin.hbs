@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SWMS | Super Admin</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h6 id="checkMobile"></h6>
+            <div class="row">
+                <div class="col-3 shadow full-height">
+                    <div id="systemName" class="text-center">
+                        <h1 class="display-2">SWMS</h1>
+                        <small class="text-muted">(Solid Waste Management System)</small>
+                    </div>
+                    <hr>
+                    <div id="userPanel" class="text-center">
+                        <p>Welcome: <small id="zita" class="text-muted text-capitalize text-info"></small></p>
+                        <button id="btnSignOut" class="btn btn-sm btn-outline-primary"><i class="fas fa-sign-out-alt"></i>
+                            Sign Out</button>
+                    </div>
+                    <hr>
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-employees-tab" data-toggle="pill" href="#v-pills-employees" role="tab"
+                            aria-controls="v-pills-employees" aria-selected="true"><i class="fas fa-users-cog"></i> Manage Employees</a>
+                        <a class="nav-link" id="v-pills-roles-tab" data-toggle="pill" href="#v-pills-roles" role="tab"
+                            aria-controls="v-pills-roles" aria-selected="false"><i class="fas fa-hard-hat"></i> Manage Roles</a>
+                        <a class="nav-link" id="v-pills-vehicles-tab" data-toggle="pill" href="#v-pills-vehicles" role="tab"
+                            aria-controls="v-pills-vehicles" aria-selected="false"><i class="fas fa-truck-moving"></i> Manage Vehicles</a>
+                        <a class="nav-link" id="v-pills-waste-category-tab" data-toggle="pill" href="#v-pills-waste-category" role="tab"
+                            aria-controls="v-pills-waste-category" aria-selected="false"><i class="fas fa-trash"></i> Manage Waste-Category</a>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-employees" role="tabpanel" aria-labelledby="v-pills-employees-tab">
+                            <div class="form-center-width">
+                                <button type="button" class="btn btn-sm btn-outline-primary btn-block" style="width: 100%" data-toggle="modal" data-target="#modalAddEmployee">Add Employee</button>
+                                <br>
+                                <hr>
+                                <form>
+                                    <div id="tableScrow" class="" style="height: 80vh; overflow-y: scroll;">
+                                        <div class="form-group">
+                                            <table id="table-users" class="table table-bordered table-hover table-sm table-striped .table-responsive">
+                                                <thead class="shadow-sm">
+                                                    <tr>
+                                                        <th scope="col">Employee ID</th>
+                                                        <th scope="col">Username</th>
+                                                        <th scope="col">Firstname</th>
+                                                        <th scope="col">Surname</th>
+                                                        <th scope="col">Role</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblEmployees"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-roles" role="tabpanel" aria-labelledby="v-pills-roles-tab">
+                            <form class=" form-center-width">
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <input type="text" class="form-control form-control-sm text-capitalize" id="role"
+                                        placeholder="Enter Role">
+                                </div>
+                                <button type="button" class="btn btn-sm btn-info" id="btnAddRole">Add Role</button>
+                                <br><br>
+                                <div id="tableScrow" class="mt-5" style="height: 60vh; overflow-y: scroll;">
+                                    <ul class="list-group" id="OccupationList"></ul>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-vehicles" role="tabpanel" aria-labelledby="v-pills-vehicles-tab">
+                            <div class="form-center-width">
+                                <button type="button" class="btn btn-sm btn-outline-primary btn-block" style="width: 100%" data-toggle="modal"
+                                    data-target="#modalAddVehicle">Add Vehicle</button>
+                                <br>
+                                <hr>
+                                <form>
+                                    <div id="tableScrow" class="" style="height: 80vh; overflow-y: scroll;">
+                                        <div class="form-group">
+                                            <table id="table-users" class="table table-hover table-sm table-striped text-center">
+                                                <thead class="shadow-sm">
+                                                    <tr>
+                                                        <th scope="col">Vehicle ID</th>
+                                                        <th scope="col">Name/Brand</th>
+                                                        <th scope="col">Type</th>
+                                                        <th scope="col">Capacity (<var>tonnes</var>)</th>
+                                                        <th scope="col">Use</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblVehicles"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-waste-category" role="tabpanel" aria-labelledby="v-pills-waste-category-tab">
+                            <div class="form-center-width">
+                                <button type="button" class="btn btn-sm btn-outline-primary btn-block" style="width: 100%" data-toggle="modal"
+                                    data-target="#modalAddWasteCategory">Add Category</button>
+                                <br>
+                                <hr>
+                                <form>
+                                    <div id="tableScrow" class="" style="height: 80vh; overflow-y: scroll;">
+                                        <div class="form-group">
+                                            <table id="table-users" class="table table-hover table-sm table-striped ">
+                                                <thead class="shadow-sm">
+                                                    <tr>
+                                                        <th scope="col">Category ID</th>
+                                                        <th scope="col">Type</th>
+                                                        <th scope="col">Source</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblWasteCategories"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Add Employee -->
+        <div class="modal fade" id="modalAddEmployee" tabindex="-1" role="dialog" aria-labelledby="modalAddEmployeeTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddEmployeeTitle"><i class="fas fa-user-plus nav-icon"></i></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="username"><strong>Username:</strong></label>
+                                <input type="text" class="form-control form-control-sm" id="username" placeholder="Enter Username">
+                            </div>
+                            <div class="form-group">
+                                <label for="fname"><strong>Firstname:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="fname" placeholder="Firstname">
+                            </div>
+                            <div class="form-group">
+                                <label for="surname"><strong>Surname:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="surname" placeholder="Surname">
+                            </div>
+                            <div class="form-group">
+                                <label for="rolelist"><strong>Role:</strong></label>
+                                <select class="form-control form-control-sm text-capitalize" id="rolelist"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><strong>Password:</strong></label>
+                                <input type="password" class="form-control form-control-sm" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmpassword"><strong>Confirm Password:</strong></label>
+                                <input type="password" class="form-control form-control-sm" id="confirmpassword" placeholder="Confirm Password">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnAddEmployee" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Edit Employee -->
+        <div class="modal fade" id="modalEditEmployee" tabindex="-1" role="dialog" aria-labelledby="modalEditEmployeeTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditEmployeeTitle"><i class="fas fa-user-cog nav-icon"></i></h5>
+                        <button type="button" id="btnDismisModal" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="occupationModalBody">
+                        <form class="form-center-width">
+                            <div class="form-group">
+                                <label for="userID"><b>User ID:</b></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="userID" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="editusername"><strong>Username:</strong></label>
+                                <input type="text" class="form-control form-control-sm" id="editusername">
+                            </div>
+                            <div class="form-group">
+                                <label for="editfname"><strong>Firstname:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editfname">
+                            </div>
+                            <div class="form-group">
+                                <label for="editsurname"><strong>Surname:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editsurname">
+                            </div>
+                            <div class="form-group">
+                                <label for="editrolelist"><strong>Role:</strong></label>
+                                <select class="form-control form-control-sm text-capitalize" id="editrolelist"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editpassword"><strong>Password:</strong></label>
+                                <input type="text" class="form-control form-control-sm" id="editpassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPass"><strong>Confirm Password:</strong></label>
+                                <input type="password" class="form-control form-control-sm" id="confirmPass">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnSaveUser" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Add Vehicle -->
+        <div class="modal fade" id="modalAddVehicle" tabindex="-1" role="dialog" aria-labelledby="modalAddVehicleTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddVehicleTitle"><i class="fas fa-truck-moving nav-icon"></i></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="vehiclename"><strong>Name:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="vehiclename" placeholder="Enter Vehicle Name (Brand)">
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicletype"><strong>Type:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="vehicletype" placeholder="Type">
+                            </div>
+                            <div class="form-group">
+                                <label for="vehiclecapacity"><strong>Capacity (<var>tonnes</var>):</strong></label>
+                                <input type="number" class="form-control form-control-sm text-capitalize" id="vehiclecapacity" placeholder="Capacity">
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicleuse"><strong>Use:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="vehicleuse" placeholder="Use">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnAddVehicle" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Update Vehicle -->
+        <div class="modal fade" id="modalEditVehicle" tabindex="-1" role="dialog" aria-labelledby="modalEditVehicleTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditVehicleTitle"><i class="fas fa-truck-monster nav-icon"></i></h5>
+                        <button type="button" id="btnDismisModal" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="occupationModalBody">
+                        <form class="form-center-width">
+                            <div class="form-group">
+                                <label for="vehicleID"><b>Vehicle ID:</b></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="vehicleID"
+                                    disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="editvehiclename"><strong>Name:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editvehiclename">
+                            </div>
+                            <div class="form-group">
+                                <label for="editvehicletype"><strong>Type:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editvehicletype">
+                            </div>
+                            <div class="form-group">
+                                <label for="editvehiclecapacity"><strong>Capacity:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editvehiclecapacity">
+                            </div>
+                            <div class="form-group">
+                                <label for="editvehicleuse"><strong>Use:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editvehicleuse">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnEditVehicle" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Add Waste Category -->
+        <div class="modal fade" id="modalAddWasteCategory" tabindex="-1" role="dialog" aria-labelledby="modalAddWasteCategoryTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddWasteCategoryTitle"><i class="fas fa-trash-alt nav-icon"></i></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="wastetype"><strong>Waste Type:</strong></label>
+                                <input type="text" class="form-control form-control-sm" id="wastetype"
+                                    placeholder="Enter Waste Type">
+                            </div>
+                            <div class="form-group">
+                                <label for="wastesource"><strong>Waste Source:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="wastesource" placeholder="Waste Source">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnAddWasteType" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Edit Waste Category -->
+        <div class="modal fade" id="modalEditWaste" tabindex="-1" role="dialog"
+            aria-labelledby="modalAddWasteCategoryTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditWasteTitle"><i class="fas fa-trash-alt nav-icon"></i></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="wasteID"><b>Vehicle ID:</b></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="wasteID" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="wastetype"><strong>Waste Type:</strong></label>
+                                <input type="text" class="form-control form-control-sm" id="editwastetype"
+                                    placeholder="Enter Waste Type">
+                            </div>
+                            <div class="form-group">
+                                <label for="wastesource"><strong>Waste Source:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="editwastesource"
+                                    placeholder="Waste Source">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnEditWaste" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Update Role -->
+        <div class="modal fade" id="modalEditOccupation" tabindex="-1" role="dialog" aria-labelledby="modalEditOccupationTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditOccupationTitle"><i class="fas fa-hard-hat nav-icon"></i></h5>
+                        <button type="button" id="btnDismisModal" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="occupationModalBody">
+                        <form class="form-center-width">
+                            <div class="form-group">
+                                <label for="occupationID"><b>Role ID:</b></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="occupationID"
+                                    disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="occupation"><strong>Role:</strong></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="occupation">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnSaveRole" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        $(document).ready(function () {
+                swms.initCheckIfMobile();
+                swms.initUserDetails();
+                swms.initLogout();
+                swms.initSlidebars();
+                swms.initPopup();
+                swms.initSuperAdmin();
+            });
+    </script>
+</html>

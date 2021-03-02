@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SWMS | Supervisor</title>
+    </head>
+    <body>
+        <section class="container-fluid">
+            <h6 id="checkMobile"></h6>
+            <div class="row">
+                <div class="col-3 shadow full-height">
+                    <div id="systemName" class="text-center">
+                        <h1 class="display-2">SWMS</h1>
+                        <small class="text-muted">(Solid Waste Management System)</small>
+                    </div>
+                    <hr>
+                    <div id="userPanel" class="text-center">
+                        <p>Welcome: <small id="zita" class="text-muted text-capitalize text-info"></small></p>
+                        <button id="btnSignOut" class="btn btn-sm btn-outline-primary"><i class="fas fa-sign-out-alt"></i>
+                            Sign Out</button>
+                    </div>
+                    <hr>
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-map-tab" data-toggle="pill" href="#v-pills-map"
+                            role="tab" aria-controls="v-pills-map" aria-selected="true"><i class="fas fa-map-marked-alt"></i>
+                            Manage Spatial Data</a>
+                        <a class="nav-link" id="v-pills-employees-tab" data-toggle="pill" href="#v-pills-employees" role="tab"
+                            aria-controls="v-pills-employees" aria-selected="false"><i class="fas fa-users"></i> Manage Employees</a>
+                    </div>
+                </div>
+                <div class="col-9 full-height p-0">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-map" role="tabpanel" aria-labelledby="v-pills-map-tab">
+                            <div id="map">
+                                <div id="map-options" class="map-options">
+                                    <div class="btn-group map-functions shadow sticky-top float-right" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="Add Zones">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="optionAddZones" value="option1">
+                                                <label class="form-check-label" for="optionAddZones"><i id="zoneIcon" class="fas fa-vector-square nav-icon"></i></label>
+                                            </div>
+                                        </button>
+                                        <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="Add Bins Positions">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="optionAddBins"
+                                                    value="option1">
+                                                <label class="form-check-label" for="optionAddBins"><i id="binIcon" class="fas fa-trash-restore-alt nav-icon"></i></label>
+                                            </div>
+                                        </button>
+                                        <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="Identify Feature">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="optionBrowseMap"
+                                                    value="option2" checked>
+                                                <label class="form-check-label" for="optionBrowseMap"><i id="identifyIcon" class="fas fa-hand-pointer nav-icon"></i></label>
+                                            </div>
+                                        </button>
+                                        <button type="button" id="btnToggleMapMenu" data-toggle="tooltip" data-placement="bottom" title="Toggle Legend"
+                                            class="btn btn-dark js-toggle-bottom-slidebar shadow sticky-top float-right">
+                                            <i id="layerIcon" class="fas fa-layer-group nav-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="attrTable .leaflet-top">
+                                    <div id="dialogAttributes" class="attrTable .leaflet-top" title="Attribute Table">
+                                        <div id="attribues">
+                                            <div class="tabledisplay ui-draggable ui-draggable-handle">
+                                                <table id="attribute"
+                                                    class="table ui-draggable ui-draggable-handle table-sm table-bordered table-secondary">
+                                                    <thead class="thead-dark">
+                                                        <tr class="center_aligned">
+                                                            <th scope="col">Attribute</th>
+                                                            <th scope="col">Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="tbodyContent"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Popup Legend -->
+                            <div off-canvas="map-options-slider bottom overlay" class="map-opt-overlay">
+                                <div class="row">
+                                    <div id="basemaps" class="col-2">
+                                        <div class="card">
+                                            <h5 class="card-header"><i class="fas fa-globe-africa"></i> Basemaps </h5>
+                                            <div class="card-body">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="googleHybrid" name="customRadio" class="custom-control-input" checked>
+                                                    <label class="custom-control-label" for="googleHybrid">Google Hybrid</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="googleSat" name="customRadio" class="custom-control-input">
+                                                    <label class="custom-control-label" for="googleSat">Google Satellite</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="googleStreets" name="customRadio" class="custom-control-input">
+                                                    <label class="custom-control-label" for="googleStreets">Google Streets</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-2">
+                                        <div class="card">
+                                            <h5 class="card-header"><i class="fas fa-layer-group"></i> Layers </h5>
+                                            <div id="style-2" class="card-body" style="height: 180px; overflow-y: scroll;">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input chkBox" id="checkBoxBins" value="tap">
+                                                    <label class="custom-control-label" for="checkBoxBins">Bins</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input chkBox" id="checkBoxZones"
+                                                        value="completed-task">
+                                                    <label class="custom-control-label" for="checkBoxZones">Zones</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input chkBox" id="checkBoxTrucks"
+                                                        value="">
+                                                    <label class="custom-control-label" for="checkBoxTrucks">Trucks</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input chkBox" id="checkBoxDrawnLayer" value="drawnlayer">
+                                                    <label class="custom-control-label" for="checkBoxDrawnLayer">Temporary layer</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <h5 class="card-header"><i class="fas fa-list"></i> Legend </h5>
+                                            <div id="style-2" class="card-body" style="height: 180px; overflow-y: scroll;">
+                                                <h6 class="Bins lead"><i class="fas fa-trash person"></i> Bins</h6>
+                                                <h6 class="Zones lead"><i class="fas fa-vector-square task-completed"></i> Zones</h6>
+                                                <h6 class="c-task lead"><i class="fas fa-circle task-completed"></i> Completed Tasks
+                                                </h6>
+                                                <h6 class="c-task lead"><i class="fas fa-circle task-halted"></i> Halted Tasks</h6>
+                                                <h6 class="c-task lead"><i class="fas fa-circle task-not-started"></i> Not Started
+                                                    Tasks</h6>
+                                                <h6 class="c-task lead"><i class="fas fa-circle task-in-progress"></i> Tasks In
+                                                    Progress</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade p-3" id="v-pills-employees" role="tabpanel" aria-labelledby="v-pills-employees-tab">
+                            <div class="form-center-width">
+                                <button type="button" class="btn btn-sm btn-primary btn-block" style="width: 100%" data-toggle="modal"
+                                    data-target="#modalAllocateDuty">Allocate Duty To Employee</button>
+                                <br>
+                                <hr>
+                                <form>
+                                    <div id="tableScrow" class="" style="height: 80vh; overflow-y: scroll;">
+                                        <div class="form-group">
+                                            <table id="tableDuties" class="table table-hover table-sm table-striped ">
+                                                <thead class="shadow-sm">
+                                                    <tr>
+                                                        <th scope="col">Task</th>
+                                                        <th scope="col">Start Time</th>
+                                                        <th scope="col">Zone</th>
+                                                        <th scope="col">Employee</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblDuties"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- Modal Place Bin -->
+        <div class="modal fade" id="modalPlaceBin" tabindex="-1" role="dialog" aria-labelledby="modalPlaceBinTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPlaceBinTitle"><i class="fas fa-trash-restore nav-icon"></i></h5>
+                        <button type="button" id="btnDismisModal" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="geoLocModalBody">
+                        <form class="p-0">
+                            <div class="form-group">
+                                <label for="binType"><small><b>Type:</b></small></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="binType"
+                                    placeholder="Enter Bin Type (Plastic)">
+                            </div>
+                            <div class="form-group">
+                                <label for="binVolume"><small><b>Volume:</b></small></label>
+                                <input type="number" class="form-control form-control-sm text-capitalize" id="binVolume"
+                                    placeholder="Volume">
+                            </div>
+                            <div class="form-group">
+                                <label for="wastelist"><small><b>Waste Category</b></label>
+                                <select class="form-control form-control-sm" id="wastelist"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtBoxGeom"><small><b>Coordinate:</b></small></label>
+                                <input type="text" class="form-control form-control-sm text-capitalize" id="txtBoxGeom"
+                                    disabled>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnSaveBinLoc" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Allacate Duty -->
+        <div class="modal fade" id="modalAllocateDuty" tabindex="-1" role="dialog" aria-labelledby="modalAllocateDutyTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAllocateDutyTitle"><i class="fas fa-tasks nav-icon"></i></h5>
+                        <button type="button" id="btnDismisModal" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="allocateTask">
+                        <form class="p-0">
+                            <div class="form-group">
+                                <label for="startTime"><b>Start Time:</b></label>
+                                <input type="time" class="form-control form-control-sm text-capitalize" id="startTime"
+                                    placeholder="Start Time">
+                            </div>
+                            <div class="form-group">
+                                <label for="jobDescription"><b>Job Description:</b></label>
+                                <textarea type="number" class="form-control form-control-sm text-capitalize" id="jobDescription"
+                                    placeholder="Job Description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeList"><b>Allocate To:</b></label>
+                                <select class="form-control form-control-sm text-capitalize" id="employeeList"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="zonesList"><b>Zone:</b></label>
+                                <select class="form-control form-control-sm" id="zonesList"></select>
+                            </div>                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close
+                            <i class="fas fa-times"></i></button>
+                        <button type="button" id="btnAllocateDuty" class="btn btn-sm btn-outline-success">Save <i
+                                class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        $(document).ready(function () {
+            swms.initCheckIfMobile();
+            swms.initUserDetails();
+            swms.initLogout();
+            swms.initSlidebars();
+            swms.initPopup();
+            swms.initSupervisor();
+        });
+    </script>
+</html>
